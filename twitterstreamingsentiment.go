@@ -42,6 +42,7 @@ func main() {
 	}
 
 	totalSentiment := []int{}
+	skips := 0
 
 	// Start processing tweets
 	for data := range stream.C {
@@ -57,10 +58,11 @@ func main() {
 				for _, x := range totalSentiment {
 					sum += x
 				}
-				fmt.Printf("Total tweets: %d, Average sentiment: %f               \r", length, float32(sum)/float32(length))
+				fmt.Printf("Total tweets: %d, Skips: %d, Average sentiment: %f               \r", length, skips, float32(sum)/float32(length))
 			}
 		case anaconda.LimitNotice:
-			fmt.Printf("Skipped %d tweets.\n", tweet.Track)
+			skips = int(tweet.Track)
+			//fmt.Printf("Skipped %d tweets.\n", tweet.Track)
 		default:
 			log.Println(tweet)
 		}
