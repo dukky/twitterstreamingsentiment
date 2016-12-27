@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/url"
 	"os"
+	"reflect"
 
 	"github.com/ChimeraCoder/anaconda"
 	"github.com/cdipaolo/sentiment"
@@ -62,9 +63,13 @@ func main() {
 			}
 		case anaconda.LimitNotice:
 			skips = int(tweet.Track)
-			//fmt.Printf("Skipped %d tweets.\n", tweet.Track)
 		default:
-			log.Println(tweet)
+			if tweet != nil {
+				log.Println(tweet)
+				log.Println(reflect.TypeOf(tweet))
+			} else {
+				log.Printf("nil tweet: %v", tweet)
+			}
 		}
 	}
 }
